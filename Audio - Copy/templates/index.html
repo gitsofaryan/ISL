@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Sign Language</title>
+</head>
+<body>
+    <h1>Text to Sign Language Conversion</h1>
+    <input type="text" id="inputText" placeholder="Enter text here">
+    <button id="charButton">Character Level</button>
+    <button id="gestureButton">Gesture Level</button>
+    
+    <div id="videoContainer"></div>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

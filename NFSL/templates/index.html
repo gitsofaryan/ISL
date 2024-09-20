@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Detection</title>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>Sign Language Detection</h1>
+        <h2>Predicted Text: {{ predicted_text }}</h2>
+        <img src="{{ url_for('video_feed') }}" width="540" height="480">
+    </div>
+</body>
+</html>

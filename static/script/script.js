@@ -1,0 +1,1 @@
+alert("This is page has been loaded")
