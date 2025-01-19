@@ -1,32 +1,37 @@
-from flask import Flask, render_template, Response,jsonify,request
+from flask import Flask, render_template, Response, jsonify, request
 import cv2
-import mediapipe as mp 
+import mediapipe as mp
 import itertools
 import copy
-import numpy as np 
-import string 
+import numpy as np
+import string
 from tensorflow import keras
-import pandas as pd 
+import pandas as pd
 import warnings
-import time 
+import time
 import pyttsx3
-warnings.filterwarnings("ignore")
 import speech_recognition as sr
-from moviepy.editor import VideoFileClip
+import atexit
 
+warnings.filterwarnings("ignore")
 
+# Ensure the video capture is released and windows are destroyed on exit
+def cleanup():
+    cap.release()
+    cv2.destroyAllWindows()
+
+atexit.register(cleanup)
 
 # Load your pre-trained model
-model = keras.models.load_model("model.h5", compile = False)
+model = keras.models.load_model("model.h5", compile=False)
 
 # Initialize MediaPipe and other variables
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
-# Create a list of alphabets 
-alphabet = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-alphabet += list(string.ascii_uppercase)
+# Create a list of alphabets
+alphabet = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] + list(string.ascii_uppercase)
 
 predicted_text = ""  # Initialize variable to hold the predicted text
 
@@ -47,29 +52,23 @@ def pre_process_landmark(landmark_list):
     temp_landmark_list = copy.deepcopy(landmark_list)
 
     # Convert to relative coordinates
-    base_x, base_y = 0, 0
+    base_x, base_y = temp_landmark_list[0]
     for index, landmark_point in enumerate(temp_landmark_list):
-        if index == 0:
-            base_x, base_y = landmark_point[0], landmark_point[1]
-
-        temp_landmark_list[index][0] = temp_landmark_list[index][0] - base_x
-        temp_landmark_list[index][1] = temp_landmark_list[index][1] - base_y
+        temp_landmark_list[index][0] -= base_x
+        temp_landmark_list[index][1] -= base_y
 
     # Flatten the list
     temp_landmark_list = list(itertools.chain.from_iterable(temp_landmark_list))
 
     # Normalization
-    max_value = max(list(map(abs, temp_landmark_list)))
-    if max_value == 0:
-        return temp_landmark_list
-    temp_landmark_list = [n / max_value for n in temp_landmark_list]
+    max_value = max(map(abs, temp_landmark_list))
+    if max_value != 0:
+        temp_landmark_list = [n / max_value for n in temp_landmark_list]
 
     return temp_landmark_list
 
 app = Flask(__name__)
 cap = cv2.VideoCapture(0)
-
-
 
 def generate_frames():
     global predicted_text
@@ -127,9 +126,6 @@ def generate_frames():
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            
-
-
 
 def audio_to_text(audio_file):
     recognizer = sr.Recognizer()
@@ -157,9 +153,6 @@ def map_text_to_video(text):
     }
     return video_mapping.get(text, None)
 
-
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -170,7 +163,6 @@ def isl_page():
     current_model = model
     current_labels_dict = alphabet
     return render_template('ISL.html')
-
 
 @app.route('/audio_to_isl', methods=['GET', 'POST'])
 def audio_to_ISL():
@@ -188,22 +180,14 @@ def audio_to_ISL():
             return jsonify({"error": "Could not recognize the audio"}), 400
     return render_template('audio_to_ISL.html')
 
-
-
-
-
-
 @app.route('/video')
 def video():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
 
 # Route to get the current predicted text
 @app.route('/get_predicted_text', methods=['GET'])
 def get_predicted_text():
     return jsonify(predicted_text=predicted_text)
-
 
 @app.route('/clear_last_character', methods=['POST'])
 def clear_last_character():
@@ -211,8 +195,6 @@ def clear_last_character():
     if predicted_text:
         predicted_text = predicted_text[:-1]
     return jsonify(predicted_text=predicted_text)
-
-
 
 @app.route('/speak_sentence', methods=['POST'])
 def speak_sentence():
@@ -229,14 +211,12 @@ def clear_sentence():
     predicted_text = ""
     return jsonify(success=True)
 
-
 # Route to add a space in the predicted text
 @app.route('/add_space', methods=['POST'])
 def add_space():
     global predicted_text
     predicted_text += " "
     return jsonify(predicted_text=predicted_text)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
