@@ -1,9 +1,0 @@
-Flask
-opencv-python
-mediapipe
-gunicorn
-tensorflow
-pandas
-pyttsx3
-SpeechRecognition
-moviepy
