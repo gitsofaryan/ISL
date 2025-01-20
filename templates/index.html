@@ -23,7 +23,7 @@
 
 <body>
 
-  <!-- ***** Preloader Start ***** -->
+  <!-- Preloader -->
   <div id="js-preloader" class="js-preloader">
     <div class="preloader-inner">
       <span class="dot"></span>
@@ -34,9 +34,8 @@
       </div>
     </div>
   </div>
-  <!-- ***** Preloader End ***** -->
 
-  <!-- ***** Pre-Header Area Start ***** -->
+  <!-- Pre-header -->
   <div class="pre-header">
     <div class="container">
       <div class="row">
@@ -61,42 +60,37 @@
       </div>
     </div>
   </div>
-  <!-- ***** Pre-Header Area End ***** -->
 
-  <!-- ***** Header Area Start ***** -->
+  <!-- Header -->
   <header class="header-area header-sticky">
     <div class="container">
       <div class="row">
         <div class="col-12">
           <nav class="main-nav">
-            <!-- ***** Logo Start ***** -->
-            <a href="index.html" class="logo">
+            <!-- Logo Start -->
+            <a href="/" class="logo">
               <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="" style="max-width: 112px;">
             </a>
-            <!-- ***** Logo End ***** -->
-            <!-- ***** Menu Start ***** -->
+            <!-- Logo End -->
+            <!-- Menu Start -->
             <ul class="nav">
               <li class="scroll-to-section"><a href="/" class="active">Home</a></li>
               <li class="scroll-to-section"><a href="/isl">ISL</a></li>
-
               <li class="scroll-to-section"><a href="http://localhost:8501/">NFSL</a></li>
-
-              
               <li class="scroll-to-section"><a href="http://127.0.0.1:1000/">Text converter</a></li>
-              
               <li class="scroll-to-section"><a href="#">Community</a></li>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
             </a>
-            <!-- ***** Menu End ***** -->
+            <!-- Menu End -->
           </nav>
         </div>
       </div>
     </div>
   </header>
-  <!-- ***** Header Area End ***** -->
 
+  <!-- Main Banner -->
   <div class="main-banner" id="top">
     <div class="container">
       <div class="row">
@@ -105,12 +99,10 @@
             <h6>Indian Sign Language</h6>
             <div class="line-dec"></div>
             <h4>Connecting <em>The</em> World <span>With Sign Sarthi</span></h4>
-            <p>Sign Sarthi is an advanced Indian Sign Language detection platform designed to bridge communication gaps for the deaf community. Utilizing the latest AI technologies, it helps 70 million deaf individuals communicate seamlessly. Explore our site with pages like <a href="index.html">Home</a>, <a href="#">ISL</a>, and <a href="nfsl.html">NFSL</a>.</p>
-
+            <p>Sign Sarthi is an advanced Indian Sign Language detection platform designed to bridge communication gaps for the deaf community. Utilizing the latest AI technologies, it helps 70 million deaf individuals communicate seamlessly. Explore our site with pages like <a href="/">Home</a>, <a href="/isl">ISL</a>, and <a href="http://localhost:8501/">NFSL</a>.</p>
             <div class="main-button scroll-to-section"><a href="/isl">Discover More</a></div>
             <span>or</span>
             <div class="second-button"><a href="faqs.html">Check our FAQs</a></div>
-
           </div>
         </div>
       </div>
@@ -119,8 +111,6 @@
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
-
-
   <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
   <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/js/isotope.min.js') }}"></script>
@@ -128,12 +118,6 @@
   <script src="{{ url_for('static', filename='assets/js/tabs.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/js/popup.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
-
-
-
-
-
-
 
 </body>
 

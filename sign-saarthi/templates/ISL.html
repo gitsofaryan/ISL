@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Sign Sarthi - Indian Sign Language Detection Platform</title>
+
+    <!-- Bootstrap core CSS -->
+    <link
+      href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}"
+      rel="stylesheet"
+    />
+
+    <!-- Additional CSS Files -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/fontawesome.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/templatemo-tale-seo-agency.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/owl.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/animate.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/isl.css') }}"
+    />
+  </head>
+
+  <body>
+    <div id="js-preloader" class="js-preloader">
+      <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pre-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-sm-9">
+            <div class="left-info">
+              <ul>
+                <li>
+                  <a href="#"
+                    ><i class="fa fa-envelope"></i>silentspeaker@gmail.com</a
+                  >
+                </li>
+                <li>
+                  <a href="#"
+                    ><i class="fa fa-map-marker"></i>Gyan Ganga Institute of
+                    Technology and Sciences</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-3">
+            <div class="social-icons">
+              <ul>
+                <li>
+                  <a href="#"><i class="fab fa-facebook"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-linkedin"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-google-plus"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <header class="header-area header-sticky">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <nav class="main-nav">
+              <!-- ***** Logo Start ***** -->
+              <a href="/" class="logo">
+                <img
+                  src="assets/images/logo.png"
+                  alt=""
+                  style="max-width: 112px"
+                />
+              </a>
+              <!-- ***** Logo End ***** -->
+              <!-- ***** Menu Start ***** -->
+              <ul class="nav">
+                <li class="scroll-to-section">
+                  <a href="/" class="active">Home</a>
+                </li>
+                <li class="scroll-to-section"><a href="/isl">ISL</a></li>
+
+                <li class="scroll-to-section">
+                  <a href="http://localhost:8501/">NFSL</a>
+                </li>
+
+                <li class="scroll-to-section">
+                  <a href="http://127.0.0.1:1000/">Text converter</a>
+                </li>
+
+                <li class="scroll-to-section"><a href="#">Community</a></li>
+              </ul>
+              <a class="menu-trigger">
+                <span>Menu</span>
+              </a>
+              <!-- ***** Menu End ***** -->
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="main" id="main">
+        <div class="video">
+          <img id="videoElement" src="/video" alt="Video feed" />
+        </div>
+
+        <div class="button-text">
+          <p>Predicted Text: <span id="predictedText"></span></p>
+
+          <div class="buttons">
+            <button class="button" id="bt1" onclick="clearLastCharacter()">
+              Clear Last Character
+            </button>
+            <button class="button" id="bt2" onclick="speakSentence()">
+              Speak Sentence
+            </button>
+            <button class="button" id="bt3" onclick="clearSentence()">
+              Clear Sentence
+            </button>
+            <button class="button" id="bt4" onclick="addSpace()">Space</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <!-- Bootstrap core JavaScript -->
+
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/isotope.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/owl-carousel.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/tabs.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/popup.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+
+    <script>
+      // Select all buttons with the class 'button'
+      const buttons = document.querySelectorAll(".button");
+
+      // Add an event listener to each button
+      buttons.forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          button.classList.add("animate");
+
+          // Remove the animation class after 600ms
+          setTimeout(() => {
+            button.classList.remove("animate");
+          }, 600);
+        });
+      });
+    </script>
+
+    <script>
+      const predictedTextElement = document.getElementById("predictedText");
+
+      function updatePredictedText() {
+        fetch("/get_predicted_text")
+          .then((response) => response.json())
+          .then((data) => {
+            predictedTextElement.textContent = data.predicted_text;
+          });
+      }
+
+      // Function to clear the entire sentence
+      function clearSentence() {
+        fetch("/clear_sentence", { method: "POST" })
+          .then((response) => response.json())
+          .then(() => {
+            updatePredictedText();
+          });
+      }
+
+      // Function to clear the last character of the predicted text
+      function clearLastCharacter() {
+        fetch("/clear_last_character", { method: "POST" })
+          .then((response) => response.json())
+          .then((data) => {
+            predictedTextElement.textContent = data.predicted_text;
+          });
+      }
+
+      // Function to send a request to speak the sentence
+      function speakSentence() {
+        fetch("/speak_sentence", { method: "POST" });
+      }
+
+      // Function to add a space in the predicted text
+      function addSpace() {
+        fetch("/add_space", { method: "POST" });
+      }
+
+      // Periodically update the predicted text every second
+      setInterval(updatePredictedText, 1000);
+    </script>
+  </body>
+</html>
