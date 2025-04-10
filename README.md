@@ -66,7 +66,7 @@ pip install -r requirements.txt
 
 **3. Run the translator**
 ```bash
-python main.py
+python app.py
 ```
 
 **4. Open the Frontend**
